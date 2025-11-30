@@ -31,6 +31,7 @@ import {
   updateProduct,
   deleteProduct,
 } from "../store/productsSlice";
+import { addToCart } from "../store/cartSlice";
 
 const { Title, Paragraph, Text } = Typography;
 const { useBreakpoint } = Grid;
@@ -77,7 +78,14 @@ export const ProductsPage: React.FC = () => {
   };
 
   const handleBuy = (p: Product) => {
-    console.log("Produto comprado:", p);
+    dispatch(
+      addToCart({
+        productId: p.id,
+        title: p.title,
+        price: p.price,
+        image: p.image,
+      })
+    );
     notification.success({
       message: "Produto adicionado ao carrinho!",
       description: `${p.title} foi incluído com sucesso.`,
@@ -104,7 +112,7 @@ export const ProductsPage: React.FC = () => {
       <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>
         <Col>
           <Title level={3} style={{ margin: 0 }}>
-            List of Products
+            Lista de Produtos
           </Title>
         </Col>
 
@@ -114,7 +122,7 @@ export const ProductsPage: React.FC = () => {
             icon={<PlusOutlined />}
             onClick={() => setModalOpen(true)}
           >
-            New Product
+            Novo Produto
           </Button>
         </Col>
       </Row>
@@ -215,7 +223,7 @@ export const ProductsPage: React.FC = () => {
                       icon={<EditOutlined />}
                       onClick={() => openEdit(item)}
                     >
-                      Edit
+                      Editar
                     </Button>
 
                     <Popconfirm
@@ -225,7 +233,7 @@ export const ProductsPage: React.FC = () => {
                       cancelText="Não"
                     >
                       <Button danger icon={<DeleteOutlined />}>
-                        Delete
+                        Excluir
                       </Button>
                     </Popconfirm>
                   </Space>
